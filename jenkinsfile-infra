@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'worker'
-    }
+    agent 'any'
 
     environment {
         AWS_ACCESS = credentials('aws-access')
@@ -43,7 +41,7 @@ pipeline {
         stage('Configure kubectl') {
             steps {
                 sh '''
-                aws eks update-kubeconfig --region us-east-2 --name my-eks-cluster1
+                aws eks update-kubeconfig --region ap-south-1 --name my-eks-cluster1
                 kubectl get nodes
                 '''
             }
@@ -52,7 +50,7 @@ pipeline {
         stage('Associate OIDC Provider') {
             steps {
                 sh '''
-                eksctl utils associate-iam-oidc-provider --cluster my-eks-cluster1 --region us-east-2 --approve || true
+                eksctl utils associate-iam-oidc-provider --cluster my-eks-cluster1 --region ap-south-1 --approve || true
                 '''
             }
         }
@@ -78,9 +76,9 @@ pipeline {
                   --namespace kube-system \
                   --name aws-load-balancer-controller \
                   --role-name AWSLoadBalancerControllerIAMRole-Mayur \
-                  --attach-policy-arn arn:aws:iam::506995420953:policy/AWSLoadBalancerControllerIAMPolicy-Mayur \
+                  --attach-policy-arn arn:aws:iam::139023233927:policy/AWSLoadBalancerControllerIAMPolicy-Mayur \
                   --approve \
-                  --region us-east-2 || true
+                  --region ap-south-1 || true
                 '''
             }
         }
@@ -110,8 +108,8 @@ pipeline {
                   --set clusterName=my-eks-cluster1 \
                   --set serviceAccount.create=false \
                   --set serviceAccount.name=aws-load-balancer-controller \
-                  --set region=us-east-2 \
-                  --set vpcId=vpc-0d32f289239e9df31
+                  --set region=ap-south-1 \
+                  --set vpcId=vpc-0448d321a6a7f88c2
                 '''
             }
         }
@@ -129,9 +127,9 @@ pipeline {
                 sh '''
                 kubectl create secret generic app-secrets \
                   -n med-erp \
-                  --from-literal=MONGODB_URI_USER="mongodb+srv://cbz:redhat@edublitz.js8tilw.mongodb.net/users_db?appName=edublitz" \
-                  --from-literal=MONGODB_URI_PRODUCT="mongodb+srv://cbz:redhat@edublitz.js8tilw.mongodb.net/products_db?appName=edublitz" \
-                  --from-literal=MONGODB_URI_ORDER="mongodb+srv://cbz:redhat@edublitz.js8tilw.mongodb.net/orders_db?appName=edublitz" \
+                  --from-literal=MONGODB_URI_USER="mongodb+srv://sathi:sathi@project-cluster.tty8o2y.mongodb.net/users_db?appName=project-cluster" \
+                  --from-literal=MONGODB_URI_PRODUCT="mongodb+srv://sathi:sathi@project-cluster.tty8o2y.mongodb.net/product_db?appName=project-cluster" \
+                  --from-literal=MONGODB_URI_ORDER="mongodb+srv://sathi:sathi@project-cluster.tty8o2y.mongodb.net/orders_db?appName=project-cluster" \
                   --from-literal=JWT_SECRET="404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970" \
                   --dry-run=client -o yaml | kubectl apply -f -
                 '''
