@@ -29,5 +29,16 @@ pipeline {
                 }
             }
         }
+
+        stage('SonarQubeAnalysis - order service') {
+            steps {
+                withSonarQubeEnv('sonar') {
+                    dir('order-service') {
+                        sh 'mvn sonar:sonar'
+                    }
+
+                }
+            }
+        }
     }   
 }
