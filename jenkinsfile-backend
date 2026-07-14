@@ -15,5 +15,19 @@ pipeline {
                 git branch: 'dev', url: 'https://github.com/saathidavane/edublitz-b2b-medical-erp.git'
             }
         }
-    }
+
+        stage('Build User-service'){
+            steps {
+                dir('user-service'){
+                    sh 'mvn clean package -DskipTests'
+                }
+            }
+
+            post {
+                success {
+                    archiveArtifacts artifacts: 'user-service/target/*.jar', fingerprint: true
+                }
+            }
+        }
+    }   
 }
