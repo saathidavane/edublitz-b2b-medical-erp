@@ -62,7 +62,7 @@ pipeline {
                 https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
 
                 aws iam create-policy \
-                  --policy-name AWSLoadBalancerControllerIAMPolicy-Mayur \
+                  --policy-name AWSLoadBalancerControllerIAMPolicy-Sathi \
                   --policy-document file://iam_policy.json || true
                 '''
             }
@@ -75,8 +75,8 @@ pipeline {
                   --cluster my-eks-cluster1 \
                   --namespace kube-system \
                   --name aws-load-balancer-controller \
-                  --role-name AWSLoadBalancerControllerIAMRole-Mayur \
-                  --attach-policy-arn arn:aws:iam::139023233927:policy/AWSLoadBalancerControllerIAMPolicy-Mayur \
+                  --role-name AWSLoadBalancerControllerIAMRole-Sathi \
+                  --attach-policy-arn arn:aws:iam::139023233927:policy/AWSLoadBalancerControllerIAMPolicy-Sathi \
                   --approve \
                   --region ap-south-1 || true
                 '''
