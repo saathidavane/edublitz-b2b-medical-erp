@@ -147,6 +147,12 @@ pipeline {
                 '''
             }
         }
+
+        stage("terraform Destroy"){
+            steps{
+                sh 'terraform destory -auto-approve'
+            }
+        }
     }
 
     post {
