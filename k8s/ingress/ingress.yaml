@@ -35,7 +35,7 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: api.saathidavane.xyz
+    - host: api.sathidavane.xyz
       http:
         paths:
           - path: /api/v1/auth
