@@ -32,8 +32,8 @@ pipeline {
             steps {
                 dir('frontend') {
                     sh '''
-                    aws s3 sync dist/ s3://saathidavane.xyz --delete
-                    aws s3 ls s3://saathidavane.xyz/ --recursive
+                    aws s3 sync dist/ s3://sathidavane.xyz  --delete
+                    aws s3 ls s3://sathidavane.xyz / --recursive
                     '''
                 }
             }
